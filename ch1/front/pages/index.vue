@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <div>{{name}} Main Page</div>
+    <v-container>
         <div>
             <post-card />
             <post-card />
@@ -8,7 +7,7 @@
             <post-card />
             <post-card />
         </div>
-    </div>
+    </v-container>
 </template>
 
 <script>
@@ -26,6 +25,5 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
 </style>

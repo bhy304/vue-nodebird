@@ -1,35 +1,50 @@
 <template>
+    <!-- Toolbars -->
     <v-app>
-        <nav>
+       <nav>
         <v-toolbar color="#006064">
-            <v-toolbar-title :style="{display: 'flex', alignItems: 'center'}">
+            <v-toolbar-title>
                 <nuxt-link to="/">NodeBird</nuxt-link>
-            </v-toolbar-title>
-
+            </v-toolbar-title>    
+            <v-spacer />
             <v-toolbar-items>
-                <v-btn text nuxt to="/profile" :style="{display: 'flex', alignItems: 'center', color: '#fff'}">
-                    <div>Profile</div>
-                </v-btn>
-                <v-btn text nuxt to="/signup" :style="{display: 'flex', alignItems: 'center', color: '#fff'}">
-                    <div>Signup</div>
-                </v-btn>
-            </v-toolbar-items>            
+                <v-text-field label="search" hide-details prepend-icon="mdi-magnify" color="#fff" />
+                    <v-btn text nuxt to="/profile" :style="{display: 'flex', alignItems: 'center', color: '#fff'}">
+                        <div>Profile</div>
+                    </v-btn>
+                    <v-btn text nuxt to="/signup" :style="{display: 'flex', alignItems: 'center', color: '#fff'}">
+                        <div>SingUp</div>
+                    </v-btn>
+            </v-toolbar-items>
         </v-toolbar>
         </nav>
-        <v-layout>
-            <v-flex xs12 md4><LoginForm /></v-flex>
-            <v-flex xs12 md8><nuxt/></v-flex>
-        </v-layout>
+        <!-- Vuex test -->
+        <div>{{name}}</div>
+        <v-btn @click="onChangeName">ByeBye</v-btn>
+        <!-- Grid System -->
+        <v-row no-gutters>
+            <v-col cols="12" xs="12" md="4">Login<LoginForm /></v-col>
+            <v-col cols="12" xs="12" md="8">Contents<nuxt /></v-col>
+        </v-row>
     </v-app>
 </template>
 
 <script>
-import 'vuetify/dist/vuetify.min.css'
 import LoginForm from '~/components/LoginForm';
 export default {
     components: {
         LoginForm,
     },
+    computed: {
+        name() {
+            return this.$store.state.posts.name;
+        }
+    },
+    methods: {
+        onChangeName() {
+            this.$store.commit('posts/BYE')
+        }
+    }
 }
 </script>
 

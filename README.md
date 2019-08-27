@@ -1,5 +1,5 @@
 # vue-nodebird
-Vue.js with Nuxt.js
+VueJS with NuxtJS
 
 ## Dependencies
 * vue@2.6.10
@@ -8,6 +8,8 @@ Vue.js with Nuxt.js
 * @nuxtjs/vuetify@1.4.0
 * axios@0.19.0
 * @nuxtjs/axios@5.6.0
+* eslint@6.2.2
+* eslint-plugin-vue@5.2.3
 
 ## Settings
   
@@ -47,7 +49,7 @@ mkdir layouts # contains your layouts
 * layouts/default.vue
 * ~~layouts/admin.vue~~
 
-## Using Vuetify
+## Vuetify
 
 [Vuetify](https://vuetifyjs.com/ko/) is a Material Design component framework for Vue.js
 
@@ -68,8 +70,32 @@ mkdir components # contains your reusable vue components
 * components/LoginForm.vue
 * components/PostCard.vue
 
-## ch1/front/nuxt.config.js
-Used to modify the default nuxt configuration
+## ESLint
+[ESLint](https://eslint.org/) is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, with the goal of making code more consistent and avoiding bugs. 
+```bash
+npm i -D eslint eslint-plugin-vue 
+# -D, --save-dev : Package will appear in your devDependencies
+```
+
+Create the ESLint Configuration file formats
+* ch1/front/.eslintrc
+* ch1/front/.eslintignore 
+  
+Add a lint script to your ```package.json```
+
+```bash
+npm run lint
+```
+## Vuex Module System
+
+```bash
+mkdir store # contains your Vuex Store files
+```
+
+* store/index.js
+* store/posts.js
+* store/users.js
+
 
 ## Start a development server
 
@@ -78,3 +104,6 @@ npm run dev
 ```
 
 Access http://localhost:3000 in your browser!!!
+
+## nuxt.config.js
+Used to modify the default nuxt configuration
