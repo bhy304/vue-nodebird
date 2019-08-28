@@ -18,21 +18,19 @@
             </v-toolbar-items>
         </v-toolbar>
         </nav>
-        <!-- Vuex test -->
-        <div>{{ name }}</div>
-        <v-btn @click="onChangeName">ByeBye</v-btn>
         <!-- Grid System -->
         <v-row no-gutters>
             <!-- Login -->
-            <v-col cols="12" xs="12" md="4"><LoginForm /></v-col> 
+            <v-col cols="12" md="4"><LoginForm /></v-col> 
             <!-- Contents -->
-            <v-col cols="12" xs="12" md="8"><nuxt /></v-col> 
+            <v-col cols="12" md="8"><nuxt /></v-col> 
         </v-row>
     </v-app>
 </template>
 
 <script>
 import LoginForm from '~/components/LoginForm';
+
 export default {
     components: {
         LoginForm,
@@ -44,7 +42,7 @@ export default {
     },
     methods: {
         onChangeName() {
-            this.$store.commit('posts/BYE')
+            this.$store.commit('posts/BYE');
         }
     }
 }

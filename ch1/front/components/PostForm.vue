@@ -13,9 +13,11 @@
                     :success="success"
                     :rules="[v => !!v.trim() || 'Write the comment']"
                     @input="onChangeTextarea" 
-                />                
-            <v-btn type="submit" color="#006064" absolute right>tweet</v-btn>
-            <v-btn>Image Upload</v-btn>
+                />         
+            <v-container>     
+                <v-btn type="submit" color="#006064" absolute right>tweet</v-btn>
+                <v-btn><v-icon>mdi-image-outline</v-icon></v-btn>
+            </v-container>  
             </v-form>
         </v-container>
     </v-card>

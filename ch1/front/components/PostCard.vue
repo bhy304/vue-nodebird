@@ -3,10 +3,10 @@
     <div style="margin-bottom: 20px">
         <v-card>
             <v-container>
-                <v-img src="https://cdn.vuetifyjs.com/images/cards/docks.jpg" height="300px" />
+                <v-img src="" />
                 <v-card-text>
                     <div><h3>{{ post.User.nickname }}</h3></div>
-                    <div>{{ post.content }}</div>
+                    <nuxt-link :to="'/post/' + post.id">{{ post.content }}</nuxt-link>
                 </v-card-text>
                 <v-card-actions>
                     <v-btn text color=""><v-icon>mdi-twitter-retweet</v-icon></v-btn>
@@ -40,7 +40,6 @@
             </v-list>
         </template>
     </div>
-
 </template>
 
 <script>

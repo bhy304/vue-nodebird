@@ -40,6 +40,14 @@ mkdir pages # contains the top level views
 * pages/signup.vue
 * pages/profile.vue
 
+```bash
+mkdir post
+mkdir _id
+```
+
+* ~~pages/post/_id.vue~~
+* pages/post/_id/index.vue
+
 ## The Layouts Directory
 
 ```bash
@@ -47,7 +55,6 @@ mkdir layouts # contains your layouts
 ```
 
 * layouts/default.vue
-* ~~layouts/admin.vue~~
 
 ## Vuetify
 
@@ -71,6 +78,7 @@ mkdir components # contains your reusable vue components
 * components/PostCard.vue
 * components/FollowList.vue
 * components/PostForm.vue
+* components/CommentForm.vue
 
 ## ESLint
 [ESLint](https://eslint.org/) is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, with the goal of making code more consistent and avoiding bugs. 
@@ -99,6 +107,15 @@ mkdir store # contains your Vuex Store files
 * store/index.js
 * store/posts.js
 * store/users.js
+
+## The Middleware Directory
+
+```bash
+mkdir middleware # contains your Application Middleware
+```
+
+* middleware/authenticated.js
+* middleware/anonymous.js
 
 ## Start a development server
 
