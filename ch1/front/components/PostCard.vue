@@ -1,29 +1,81 @@
 <template>
     <!-- PostCard -->
-    <v-card style="margin-bottom: 20px">
-        <v-container>
-            <v-img src="https://cdn.vuetifyjs.com/images/cards/docks.jpg" height="300px">
-                <v-card-title>Title</v-card-title>
-            </v-img>
-            <v-card-text>
-                <div><h3>nickname</h3></div>
-                <div>안녕하세요. 게시글입니다.</div>
-            </v-card-text>
-            <v-card-actions>
-                <v-btn text><v-icon>mdi-twitter-retweet</v-icon></v-btn>
-                <v-btn text><v-icon>mdi-heart-outline</v-icon></v-btn>
-                <v-btn text><v-icon>mdi-comment-outline</v-icon></v-btn>
-                <v-btn text><v-icon>mdi-dots-horizontal</v-icon></v-btn>
-            </v-card-actions>
-        </v-container>
-    </v-card>
+    <div style="margin-bottom: 20px">
+        <v-card>
+            <v-container>
+                <v-img src="https://cdn.vuetifyjs.com/images/cards/docks.jpg" height="300px" />
+                <v-card-text>
+                    <div><h3>{{ post.User.nickname }}</h3></div>
+                    <div>{{ post.content }}</div>
+                </v-card-text>
+                <v-card-actions>
+                    <v-btn text color=""><v-icon>mdi-twitter-retweet</v-icon></v-btn>
+                    <v-btn text color=""><v-icon>mdi-heart-outline</v-icon></v-btn>
+                    <v-btn text color="" @click="onToggleComment"><v-icon>mdi-comment-outline</v-icon></v-btn>
+                    <v-menu offset-y open-on-hover>
+                        <template v-slot:activator="{ on }">
+                            <v-btn text color="" v-on="on"><v-icon>mdi-dots-horizontal</v-icon></v-btn>
+                        </template>
+                        <div style="background: white">
+                            <v-btn dark color="red" @click="onRemovePost">delete</v-btn>
+                            <v-btn text color="blue" @click="onEditPost">edit</v-btn>
+                        </div>
+                    </v-menu>
+                </v-card-actions>
+            </v-container>
+        </v-card>
+        <!-- Comment -->
+        <template v-if="commentOpened">
+            <comment-form :post-id="post.id" />
+            <v-list>
+                <v-list-item v-for="c in post.Comments" :key="c.id">
+                    <v-list-item-avatar color="teal">
+                        <span>{{ c.User.nickname[0] }}</span>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                        <v-list-item-title>{{ c.User.nickname }}</v-list-item-title>
+                        <v-list-item-subtitle>{{ c.content }}</v-list-item-subtitle>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list>
+        </template>
+    </div>
+
 </template>
 
 <script>
+import CommentForm from '~/components/CommentForm';
+
 export default {
-    
-}
+    components: {
+        CommentForm,
+    },
+    props: {
+        post: {
+            type: Object,
+            required: true,
+        }
+    },
+    data () {
+        return {
+            commentOpened: false
+        }
+    },
+    methods: {
+        onRemovePost() {
+            this.$store.dispatch('posts/remove', {
+                id: this.post.id,
+            });
+        },
+        onEditPost() {
+
+        },
+        onToggleComment() {
+            this.commentOpened = !this.commentOpened;            
+        }
+    }
+};
 </script>
 
-<style scoped>
+<style>
 </style>

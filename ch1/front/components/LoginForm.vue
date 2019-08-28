@@ -15,8 +15,10 @@
     </v-container>
     <v-container v-else>
         <v-card>
-            {{ me.nickname }} Login Success
-            <v-btn @click="onLogout">Logout</v-btn>
+            <v-container>
+                {{ me.nickname }} Login Success
+                <v-btn @click="onLogout">Logout</v-btn>
+            </v-container>
         </v-card>
     </v-container>
 </template>
@@ -57,5 +59,5 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 </style>

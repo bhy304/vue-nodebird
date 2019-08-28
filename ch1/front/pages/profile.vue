@@ -6,8 +6,8 @@
                 <v-container>
                     <v-subheader>My Profile</v-subheader>
                 
-                <v-form>
-                    <v-text-field label="nickname" required />
+                <v-form v-model="valid" @submit.prevent="onChangeNickname">
+                    <v-text-field v-model="nickname" label="nickname" :rules="nicknameRules" required />
                     <v-btn color="#006064" type="submit">Edit</v-btn>
                 </v-form>
                 </v-container>
@@ -37,7 +37,11 @@ export default {
     },
     data () {
         return {
-            name: 'Nuxt.js'
+            valid: false,
+            nickname: '',
+            nicknameRules: [
+                v => !!v || '닉네임을 입력하세요.'
+            ]
         }
     },
     head() {
@@ -45,8 +49,15 @@ export default {
             title: 'Profile'
         }
     },
+    methods: {
+        onChangeNickname() {
+            this.$store.dispatch('users/changeNickname', {
+                nickname: this.nickname
+            })
+        }
+    }
 }
 </script>
 
-<style scoped>
+<style>
 </style>

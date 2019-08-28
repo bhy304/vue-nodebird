@@ -19,12 +19,14 @@
         </v-toolbar>
         </nav>
         <!-- Vuex test -->
-        <div>{{name}}</div>
+        <div>{{ name }}</div>
         <v-btn @click="onChangeName">ByeBye</v-btn>
         <!-- Grid System -->
         <v-row no-gutters>
-            <v-col cols="12" xs="12" md="4">Login<LoginForm /></v-col>
-            <v-col cols="12" xs="12" md="8">Contents<nuxt /></v-col>
+            <!-- Login -->
+            <v-col cols="12" xs="12" md="4"><LoginForm /></v-col> 
+            <!-- Contents -->
+            <v-col cols="12" xs="12" md="8"><nuxt /></v-col> 
         </v-row>
     </v-app>
 </template>

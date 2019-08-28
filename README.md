@@ -69,9 +69,13 @@ mkdir components # contains your reusable vue components
 
 * components/LoginForm.vue
 * components/PostCard.vue
+* components/FollowList.vue
+* components/PostForm.vue
 
 ## ESLint
 [ESLint](https://eslint.org/) is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, with the goal of making code more consistent and avoiding bugs. 
+
+Install eslint and eslint-plugin-vue
 ```bash
 npm i -D eslint eslint-plugin-vue 
 # -D, --save-dev : Package will appear in your devDependencies
@@ -95,7 +99,6 @@ mkdir store # contains your Vuex Store files
 * store/index.js
 * store/posts.js
 * store/users.js
-
 
 ## Start a development server
 
