@@ -2,11 +2,16 @@
     <!-- PostCard -->
     <div style="margin-bottom: 20px">
         <v-card>
+            <v-image />
+            <v-card-title>
+                <h3>
+                    <nuxt-link :to="'/users/' + post.id">{{ post.User.nickname }}</nuxt-link>
+                </h3>
+            </v-card-title>
             <v-container>
                 <v-img src="" />
                 <v-card-text>
-                    <div><h3>{{ post.User.nickname }}</h3></div>
-                    <nuxt-link :to="'/post/' + post.id">{{ post.content }}</nuxt-link>
+                    <div>{{ post.content }}</div>
                 </v-card-text>
                 <v-card-actions>
                     <v-btn text color=""><v-icon>mdi-twitter-retweet</v-icon></v-btn>
@@ -76,5 +81,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+a {
+    color: inherit;
+    text-decoration: none;
+}
 </style>

@@ -9,7 +9,7 @@
             :success-messages="successMessages"
             @input="onChangeTextarea"
         />
-        <v-btn color="#006064" dark absolute top right type="submit">reply</v-btn>
+        <v-btn color="#0D47A1" dark absolute top right type="submit">reply</v-btn>
     </v-form>
 </template>
 

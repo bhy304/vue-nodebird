@@ -2,13 +2,18 @@
     <!-- Toolbars -->
     <v-app>
        <nav>
-        <v-toolbar color="#006064">
+        <v-toolbar color="#0D47A1">
             <v-toolbar-title>
                 <nuxt-link to="/">NodeBird</nuxt-link>
             </v-toolbar-title>    
             <v-spacer />
             <v-toolbar-items>
-                <v-text-field label="search" hide-details prepend-icon="mdi-magnify" color="#fff" />
+                <!-- Search -->
+                <v-form @submit.prevent="onSearchHashtag">
+                    <div :style="{display: 'flex', alignItems: 'center', height: '100%'}">
+                        <v-text-field v-model="hashtag" label="search" hide-details prepend-icon="mdi-magnify" color="#fff" />
+                    </div>
+                </v-form>
                     <v-btn text nuxt to="/profile" :style="{display: 'flex', alignItems: 'center', color: '#fff'}">
                         <div>Profile</div>
                     </v-btn>
@@ -35,14 +40,17 @@ export default {
     components: {
         LoginForm,
     },
-    computed: {
-        name() {
-            return this.$store.state.posts.name;
+    data () {
+        return {
+            hashtag: '',
         }
     },
     methods: {
-        onChangeName() {
-            this.$store.commit('posts/BYE');
+        onSearchHashtag() {
+            this.$router.push({
+                path: `/hashtag/${this.hashtag}`,
+            });
+            this.hashtag = '';
         }
     }
 }

@@ -7,8 +7,8 @@
                 <v-container>
                     <v-text-field v-model="email" :rules="emailRules" label="email" type="email" required />
                     <v-text-field v-model="password" :rules="passwordRules" label="password" type="password" required />
-                    <v-btn type="submit" color="#006064" :disabled="!valid">Login</v-btn>
-                    <v-btn nuxt to="/signup" color="#006064">Signup</v-btn>
+                    <v-btn type="submit" color="#0D47A1" :disabled="!valid" class="white--text">Login</v-btn>
+                    <v-btn nuxt to="/signup" color="#0D47A1" class="white--text">Signup</v-btn>
                 </v-container>
             </v-form>
         </v-card>

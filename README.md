@@ -1,5 +1,23 @@
 # vue-nodebird
-VueJS with NuxtJS
+```
+vue-nodebird
+ └─ch1
+    └─front 
+        ├─.nuxt
+        ├─components    
+        ├─layouts    
+        ├─middleware    
+        ├─node_modules          
+        ├─pages
+        │  │  
+        │  ├─hashtag
+        │  │  └─_id         
+        │  ├─post
+        │  │  └─_id         
+        │  └─user
+        │     └─_id 
+        └─store
+```
 
 ## Dependencies
 * vue@2.6.10
@@ -12,7 +30,6 @@ VueJS with NuxtJS
 * eslint-plugin-vue@5.2.3
 
 ## Settings
-  
 ```bash
 mkdir ch1 # make a directory in project folder
 mkdir front # make a directory in ch1
@@ -25,43 +42,33 @@ npm init # To create 'package.json' file
 ```
 
 Install vue and nuxt
-
 ```bash
 npm i vue nuxt
 ```
 
 ## The Pages Directory
-
 ```bash
 mkdir pages # contains the top level views
 ```
 
-* pages/index.vue
-* pages/signup.vue
-* pages/profile.vue
-
-```bash
-mkdir post
-mkdir _id
-```
-
-* ~~pages/post/_id.vue~~
-* pages/post/_id/index.vue
+* index.vue
+* signup.vue
+* profile.vue
+* /post/_id/index.vue
+* /hashtag/_id/index.vue
+* /user/_id/index.vue
 
 ## The Layouts Directory
-
 ```bash
 mkdir layouts # contains your layouts
 ```
 
-* layouts/default.vue
+* default.vue
 
 ## Vuetify
-
 [Vuetify](https://vuetifyjs.com/ko/) is a Material Design component framework for Vue.js
 
 Install vuetify and axios 
-
 ```bash
 npm i vuetify
 npm i @nuxtjs/vuetify
@@ -69,16 +76,14 @@ npm i @nuxtjs/axios axios
 ```
 
 ## The Components Directory
-
 ```bash
 mkdir components # contains your reusable vue components
 ```
-
-* components/LoginForm.vue
-* components/PostCard.vue
-* components/FollowList.vue
-* components/PostForm.vue
-* components/CommentForm.vue
+* LoginForm.vue
+* PostCard.vue
+* FollowList.vue
+* PostForm.vue
+* CommentForm.vue
 
 ## ESLint
 [ESLint](https://eslint.org/) is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code, with the goal of making code more consistent and avoiding bugs. 
@@ -94,36 +99,30 @@ Create the ESLint Configuration file formats
 * ch1/front/.eslintignore 
   
 Add a lint script to your ```package.json```
-
 ```bash
 npm run lint
 ```
-## Vuex Module System
 
+## Vuex Module System
 ```bash
 mkdir store # contains your Vuex Store files
 ```
 
-* store/index.js
-* store/posts.js
-* store/users.js
+* index.js
+* posts.js
+* users.js
 
 ## The Middleware Directory
-
 ```bash
 mkdir middleware # contains your Application Middleware
 ```
 
-* middleware/authenticated.js
-* middleware/anonymous.js
+* authenticated.js
+* anonymous.js
 
 ## Start a development server
-
 ```bash
 npm run dev
 ```
 
 Access http://localhost:3000 in your browser!!!
-
-## nuxt.config.js
-Used to modify the default nuxt configuration

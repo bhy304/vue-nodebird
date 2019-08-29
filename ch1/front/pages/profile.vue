@@ -5,10 +5,9 @@
             <v-card style="margin-bottom: 20px">
                 <v-container>
                     <v-subheader>My Profile</v-subheader>
-                
                 <v-form v-model="valid" @submit.prevent="onChangeNickname">
                     <v-text-field v-model="nickname" label="nickname" :rules="nicknameRules" required />
-                    <v-btn color="#006064" type="submit">Edit</v-btn>
+                    <v-btn color="#0D47A1" type="submit" class="white--text">Edit</v-btn>
                 </v-form>
                 </v-container>
             </v-card>
@@ -16,12 +15,14 @@
                 <v-container>
                     <v-subheader>Following</v-subheader>
                     <follow-list :users="followingList" :remove="removeFollowing" />
+                    <v-btn v-if="hasMoreFollowing" color="blue" style="width: 100%" class="white--text" @click="loadMoreFollowings">view more</v-btn>
                 </v-container>
             </v-card>
             <v-card style="margin-bottom: 20px">
                 <v-container>
                     <v-subheader>Follower</v-subheader>
                     <follow-list :users="followerList" :remove="removeFollower" />
+                    <v-btn v-if="hasMoreFollower" color="blue" style="width: 100%" class="white--text" @click="loadMoreFollowers">view more</v-btn>
                 </v-container>
             </v-card>
         </v-container>
@@ -56,7 +57,17 @@ export default {
         },
         followingList() {
             return this.$store.state.users.followingList;
+        },
+        hasMoreFollowing() {
+            return this.$store.state.users.hasMoreFollowing;
+        }, 
+        hasMoreFollower() {
+            return this.$store.state.users.hasMoreFollower;
         }
+    },
+    fetch({ store }) {
+        store.dispatch('users/loadFollowers');
+        store.dispatch('users/loadFollowings');
     },
     methods: {
         onChangeNickname() {
@@ -69,6 +80,12 @@ export default {
         },
         removeFollower(id) {
             this.$store.dispatch('users/removeFollower', { id });
+        },
+        loadMoreFollowings() {
+            this.$store.dispatch('users/loadFollowings');
+        },
+        loadMoreFollowers() {
+            this.$store.dispatch('users/loadFollowers');
         }
     }
 }

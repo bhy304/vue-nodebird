@@ -11,7 +11,7 @@
                         <v-text-field v-model="passwordCheck" :rules="passwordCheckRules" label="pwcheck" type="password" required />
                         <v-text-field v-model="nickname" :rules="nicknameRules" label="nickname" type="nickname" required />
                         <v-checkbox v-model="terms" :rules="[v => !!v || '동의해주세요!']" required label="Agree to Sign up!" />
-                        <v-btn color="#006064" type="submit">signup</v-btn>
+                        <v-btn color="#0D47A1" type="submit" class="white--text">signup</v-btn>
                     </v-form>
                 </v-container>
             </v-card>

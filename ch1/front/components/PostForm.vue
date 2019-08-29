@@ -15,7 +15,7 @@
                     @input="onChangeTextarea" 
                 />         
             <v-container>     
-                <v-btn type="submit" color="#006064" absolute right>tweet</v-btn>
+                <v-btn type="submit" color="#0D47A1" absolute right class="white--text">tweet</v-btn>
                 <v-btn><v-icon>mdi-image-outline</v-icon></v-btn>
             </v-container>  
             </v-form>
