@@ -7,6 +7,8 @@ vue-nodebird
     │  ├─migrations
     │  ├─models
     │  ├─node_modules
+    │  ├─passport
+    │  ├─routes
     │  └─seeders
     │
     └─front

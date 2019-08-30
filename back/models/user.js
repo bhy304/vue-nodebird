@@ -2,7 +2,8 @@ module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define('User', {
         email: {
             type: DataTypes.STRING(40),
-            allowNull: false, 
+            allowNull: false,  
+            unique: true, // 중복금지
         },
         nickname: {
             type: DataTypes.STRING(20),
@@ -20,6 +21,6 @@ module.exports = (sequelize, DataTypes) => {
     User.asscociate = (db) => {
 
     };
-
+    
     return User;
 };
