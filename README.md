@@ -9,7 +9,8 @@ vue-nodebird
     │  ├─node_modules
     │  ├─passport
     │  ├─routes
-    │  └─seeders
+    │  ├─seeders
+    │  └─uploads
     │
     └─front
         ├─.nuxt

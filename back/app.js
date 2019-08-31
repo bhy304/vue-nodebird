@@ -8,9 +8,10 @@ const morgan = require('morgan');
 const db = require('./models');
 const passportConfig = require('./passport');
 const userRouter = require('./routes/user');
+const postRouter = require('./routes/post');
 const app = express();
 
-db.sequelize.sync(); 
+db.sequelize.sync({ force: true }); // { force: true }
 passportConfig();
 
 app.use(morgan('dev'));
@@ -18,6 +19,7 @@ app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true,
 }));
+app.use('/', express.static('uploads')); // 이미지 저장
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookie('cookiesecret'));
@@ -38,6 +40,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/user', userRouter);
+app.use('/post', postRouter);
 
 app.post('/post', (req, res) => {
     if (req.isAuthenticated()) {
