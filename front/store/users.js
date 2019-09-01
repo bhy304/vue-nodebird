@@ -54,6 +54,19 @@ export const mutations = {
 
 // 비동기적작업
 export const actions = {
+    async loadUser({ state, commit }) {
+        console.log('loadUser');
+        try {
+            const res = await this.$axios.get('http://localhost:3085/user', {
+                withCredentials: true,
+            });
+            console.log(res.data);
+            commit('setMe', res.data);
+            console.log(state);
+        } catch (err) {
+            console.error(err);
+        }
+    },
     signUp({ commit }, payload) {
         // 서버에 회원가입 요청을 보내는 부분
         this.$axios.post('http://localhost:3085/user', {

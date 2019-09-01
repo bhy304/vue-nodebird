@@ -22,7 +22,7 @@
                     <div v-for="(p, i) in imagePaths" :key="p" style="display: inline-block">
                         <img :src="`http://localhost:3085/${p}`" :alt="p" style="width: 200px">
                         <div>
-                            <button @click="onRemoveImage(i)" type="button">delete</button>
+                            <button type="button" @click="onRemoveImage(i)">delete</button>
                         </div>
                     </div>
                 </div>
@@ -86,7 +86,7 @@ export default {
             this.$store.commit('posts/removeImagePaths', index);
         }
     }
-}
+};
 </script>
 
 <style>

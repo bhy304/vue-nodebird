@@ -68,13 +68,18 @@ export default {
     methods: {
         onRemovePost() {
             this.$store.dispatch('posts/remove', {
-                id: this.post.id,
+                postId: this.post.id,
             });
         },
         onEditPost() {
 
         },
         onToggleComment() {
+            if (!this.commentOpened) {
+                this.$store.dispatch('posts/loadComments', { // 게시글에 대한 댓글 가져오기
+                    postId: this.post.id,
+                });
+            }
             this.commentOpened = !this.commentOpened;            
         }
     }
