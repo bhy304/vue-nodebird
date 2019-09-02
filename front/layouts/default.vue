@@ -4,7 +4,7 @@
        <nav>
         <v-toolbar color="#0D47A1">
             <v-toolbar-title>
-                <nuxt-link to="/">NodeBird</nuxt-link>
+                <nuxt-link to="/">VueNodeBird</nuxt-link>
             </v-toolbar-title>    
             <v-spacer />
             <v-toolbar-items>

@@ -9,5 +9,12 @@ module.exports = {
         '@nuxtjs/vuetify',
     ],
     // plugins: [],
-    vuetify: {},
+    vuetify: {
+
+    },
+    axios: {
+        browserBaseURL: 'http://localhost:3085', // 클라이언트에서 axios 보낼 때
+        baseURL: 'http://localhost:3085', // 서버에서 axios 보낼 때
+        https: false,
+    },
 };

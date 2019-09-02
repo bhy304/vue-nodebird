@@ -35,6 +35,9 @@ export default {
     fetch({ store }) {
         return store.dispatch('posts/loadPosts');
     },
+    // asyncData() { //비동기작업을 위한 데이터
+    //     return {};
+    // },
     mounted() {
         window.addEventListener('scroll', this.onScroll);
     },

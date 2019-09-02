@@ -33,11 +33,23 @@ router.post('/', isLoggedIn, async (req, res, next) => {
             })));
             await newPost.addHashtags(result.map(r => r[0]));
         }
+        // 이미지가 있는 경우에만 업로드
+        if (req.body.image) {
+            if (Array.isArray(req.body.image)) { 
+                await Promise.all(req.body.image.map((image) => {
+                    return db.Image.create({ src: image, PostId: newPost.id });
+                }));
+            } else { // 이미지가 한 개일 때
+                await db.Image.create({ src: req.body.image, PostId: newPost.id });
+            }
+        }
         const fullPost = await db.Post.findOne({
             where: { id: newPost.id },
             include: [{
                 model: db.User,
                 attributes: ['id', 'nickname'],
+            }, {
+                model: db.Image,
             }],
         });
         return res.json(fullPost);
