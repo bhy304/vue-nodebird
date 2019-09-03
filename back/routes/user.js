@@ -46,7 +46,23 @@ router.post('/', isNotLoggedIn, async (req, res, next) => {
                     console.error(err);
                     return next(err);
                 }
-                return res.json(user); // 프론트로 사용자정보 넘겨준다.
+                const fullUser = await db.User.findOne({
+                    where: { id: user.id },
+                    attributes: ['id', 'email', 'nickname'],
+                    include: [{
+                        model: db.Post,
+                        attributes: ['id'],
+                    }, {
+                        model: db.User,
+                        as: 'Followings',
+                        attributes: ['id'],
+                    }, { 
+                        model: db.User,
+                        as: 'Followers',
+                        attributes: ['id'],
+                    }],
+                });
+                return res.json(fullUser); // 프론트로 사용자정보 넘겨준다.
             });
         })(req, res, next);
     } catch (err) {
@@ -70,10 +86,25 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
                 console.error(err);
                 return next(err);
             }
-            return res.json(user); // 프론트로 사용자정보 넘겨준다.
+            const fullUser = await db.User.findOne({
+                where: {id: user.id},
+                attributes: ['id', 'email', 'nickname'],
+                include: [{
+                    model: db.Post,
+                    attributes: ['id'],
+                }, {
+                    model: db.User,
+                    as: 'Followings',
+                    attributes: ['id'],
+                }, { 
+                    model: db.User,
+                    as: 'Followers',
+                    attributes: ['id'],
+                }],
+            });
+            return res.json(fullUser); // 프론트로 사용자정보 넘겨준다.
         });
     })(req, res, next);
-
 });
 
 // 로그아웃
@@ -82,6 +113,48 @@ router.post('/logout', isLoggedIn, (req, res) => {
         req.logout();
         req.session.destroy();
         return res.status(200).send('로그아웃되었습니다.');
+    }
+});
+
+// 팔로잉, 팔로워
+router.post('/:id/follow', isLoggedIn, async (req, res, next) => {
+    try {
+        const me = await db.User.findOne({
+            where: { id: req.user.id },
+        });
+        await me.addFollowing(req.params.id);
+        res.send(req.params.id);
+    } catch (e) {
+        console.error(e);
+        next(e);
+    }
+});
+
+router.delete('/:id/follow', isLoggedIn, async (req, res, next) => {
+    try {
+        const me = await db.User.findOne({
+            where: { id: req.user.id },
+        });
+        await me.removeFollowing(req.params.id);
+        res.send(req.params.id);
+    } catch (e) {
+        console.error(e);
+        next(e);
+    }
+});
+
+// 사용자 닉네임 변경
+router.patch('/nickname', isLoggedIn, async (req, res, next) => {
+    try {
+        await db.User.update({
+            nickname: req.body.nickname,
+        }, {
+            where: { id: req.user.id },
+        });
+        res.send(req.body.nickname);
+    } catch (e) {
+        console.error(e);
+        next(e);
     }
 });
 

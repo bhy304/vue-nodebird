@@ -25,8 +25,8 @@ export const mutations = {
         state.followerList.push(payload);
     },
     removeFollowing(state, payload) {
-        const index = state.followingList.findIndex(v => v.id === payload.id);
-        state.followingList.splice(index, 1);
+        const index = state.me.Followings.findIndex(v => v.id === payload.userId);
+        state.me.Followings.splice(index, 1);
     },
     removeFollower(state, payload) {
         const index = state.followerList.findIndex(v => v.id === payload.id);
@@ -49,6 +49,9 @@ export const mutations = {
         }));
         state.followerList = state.followerList.concat(fakeUsers);
         state.hasMoreFollower =  fakeUsers.length === limit;
+    },
+    following(state, payload) {
+        state.me.Followings.push({ id: payload.userId });
     },
 };
 
@@ -128,4 +131,26 @@ export const actions = {
             commit('loadFollowers');
         }
     },
+    follow({ commit, state }, payload) {
+        this.$axios.post(`/user/${payload.userId}/follow`, {}, {
+            withCredentials: true,
+        }).then((res) => {
+            commit('following', {
+                userId: payload.userId,
+            });
+        }).catch((err) => {
+            console.error(err);
+        });
+    },
+    unfollow({ commit, state }, payload) {
+        this.$axios.delete(`/user/${payload.userId}/follow`, {
+            withCredentials: true,
+        }).then((res) => {
+            commit('removeFollowing', {
+                userId: payload.userId,
+            });
+        }).catch((err) => {
+            console.error(err);
+        });;
+    }
 };
