@@ -66,8 +66,8 @@ export default {
         }
     },
     fetch({ store }) {
-        store.dispatch('users/loadFollowers');
-        return store.dispatch('users/loadFollowings');
+        store.dispatch('users/loadFollowers', { offset: 0 }); // { offset: 0 } : 초기로딩상태로 되돌아간다.
+        return store.dispatch('users/loadFollowings', { offset: 0 });
     },
     methods: {
         onChangeNickname() {
@@ -75,11 +75,11 @@ export default {
                 nickname: this.nickname
             });
         },
-        removeFollowing(id) {
-            this.$store.dispatch('users/removeFollowing', { id });
+        removeFollowing(userId) {
+            this.$store.dispatch('users/unfollow', { userId });
         },
-        removeFollower(id) {
-            this.$store.dispatch('users/removeFollower', { id });
+        removeFollower(userId) {
+            this.$store.dispatch('users/removeFollower', { userId });
         },
         loadMoreFollowings() {
             this.$store.dispatch('users/loadFollowings');
