@@ -12,7 +12,6 @@ router.get('/', isLoggedIn, async (req, res, next) => {
     res.json(user);
 });
 
-
 // 회원가입
 router.post('/', isNotLoggedIn, async (req, res, next) => {
     try {
@@ -116,7 +115,7 @@ router.post('/logout', isLoggedIn, (req, res) => {
     }
 });
 
-// 팔로잉, 팔로워
+// 팔로잉
 router.post('/:id/follow', isLoggedIn, async (req, res, next) => {
     try {
         const me = await db.User.findOne({
@@ -130,6 +129,7 @@ router.post('/:id/follow', isLoggedIn, async (req, res, next) => {
     }
 });
 
+// 언팔로잉
 router.delete('/:id/follow', isLoggedIn, async (req, res, next) => {
     try {
         const me = await db.User.findOne({
@@ -158,7 +158,7 @@ router.patch('/nickname', isLoggedIn, async (req, res, next) => {
     }
 });
 
-// followings, followers
+// getFollowers
 router.get('/:id/followers', isLoggedIn, async (req, res, next) => {
     try {
         const user = await db.User.findOne({
@@ -176,6 +176,7 @@ router.get('/:id/followers', isLoggedIn, async (req, res, next) => {
     }
 });
 
+// getFollowings
 router.get('/:id/followings', isLoggedIn, async (req, res, next) => {
     try {
         const user = await db.User.findOne({
@@ -193,6 +194,7 @@ router.get('/:id/followings', isLoggedIn, async (req, res, next) => {
     }
 });
 
+// 언팔로워
 router.delete('/:id/follower', isLoggedIn, async (req, res, next) => {
     try {
         const me = await db.User.findOne({
@@ -203,6 +205,63 @@ router.delete('/:id/follower', isLoggedIn, async (req, res, next) => {
     } catch (e) {
         console.error(e);
         next(e);
+    }
+});
+
+router.get('/:id/posts', async (req, res, next) => {
+    try {
+        let where = {
+            UserId: parseInt(req.params.id, 10),
+            RetweetId: null,
+        }
+        if (parseInt(req.query.lastId, 10)) {
+            where[db.Sequelize.Op.lt] = parseInt(req.query.lastId, 10);
+        }
+        const posts = await db.Post.findAll({
+            where,
+            include: [{
+                model: db.User,
+                attributes: ['id', 'nickname'],
+            }, {
+                model: db.Image,
+            }, {
+                model: db.User,
+                through: 'Like',
+                as: 'Likers',
+                attributes: ['id'],
+            }],
+        });
+        res.json(posts);
+    } catch (err) {
+        console.error(err);
+        next(e);
+    }
+});
+
+// 특정 사용자 정보 가져오기
+router.get('/:id', async (req, res, next) => {
+    try {
+        const user = await db.User.findOne({
+            where: { id: parseInt(req.params.id, 10) },
+            include: [{
+                model: db.Post,
+                as: 'Posts',
+                attributes: ['id'],
+            }, {
+                model: db.User,
+                as: 'Followings',
+                attributes: ['id'],
+            }, {
+                model: db.User,
+                as: 'Followers',
+                attributes: ['id'],
+            }],
+            attributes: ['id', 'nickname'],
+        });
+        res.json(user);
+    } catch (err) {
+        console.error(err);
+        next(err);
     }
 });
 

@@ -1,5 +1,15 @@
 <template>
     <v-container>
+        <v-card style="margin-bottom: 20px">
+            <v-container>
+                {{other.nickname}}
+                <v-row>
+                    <v-col cols="4">{{other.Followings.length}} Following</v-col>
+                    <v-col cols="4">{{other.Followers.length}} Followers</v-col>
+                    <v-col cols="4">{{other.Posts.length}} Posts</v-col>
+                </v-row>
+            </v-container>
+        </v-card>
         <div>
             <post-card v-for="p in mainPosts" :key="p.id" :post="p" />
         </div>
@@ -8,7 +18,6 @@
 
 <script>
 import PostCard from '~/components/PostCard';
-import PostForm from '~/components/PostForm';
 
 export default {
     components: {
@@ -20,18 +29,21 @@ export default {
         }
     },
     computed: {
-        me() {
-            return this.$store.state.users.me;
+        other() {
+            return this.$store.state.users.other;
         },
         mainPosts() {
             return this.$store.state.posts.mainPosts;
         },
-        hasMorePost() {
-            return this.$store.state.posts.hasMorePost;
-        }
     },
-    fetch({ store }) {
-        store.dispatch('posts/loadPosts');
+    fetch({ store, params }) {
+        store.dispatch('users/loadOther', {
+            userId: params.id,
+        });
+        return store.dispatch('posts/loadUserPosts', {
+            userId: params.id,
+            reset: true,
+        });
     },
     mounted() {
         window.addEventListener('scroll', this.onScroll);

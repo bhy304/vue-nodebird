@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import throttle from 'lodash.throttle';
 
 export const state = () => ({
     mainPosts: [],
@@ -26,8 +27,12 @@ export const mutations = {
         state.mainPosts[index].Comments.unshift(payload);
     },
     loadPosts(state, payload) {
-        state.mainPosts = state.mainPosts.concat(payload);
-        state.hasMorePost = payload.length === 10;
+        if (payload.reset) {
+            state.mainPosts = payload.data;
+        } else {
+            state.mainPosts = state.mainPosts.concat(payload.data);
+        }
+        state.hasMorePost = payload.data.length === 10;
     },
     concatImagePaths(state, payload) {
         state.imagePaths = state.imagePaths.concat(payload);
@@ -77,7 +82,6 @@ export const actions = {
         }, {
             withCredentials: true,
         }).then((res) => {
-            console.log('addComment');
             commit('addComment', res.data);
         }).catch((err) => {
             console.error(err);
@@ -94,19 +98,53 @@ export const actions = {
             console.error(err);
         });
     },
-    async loadPosts({ commit, state }, payload) {
+    loadPosts: throttle(async function({ commit, state }, payload) {
         console.log('loadPosts', state.hasMorePost);
-        if (state.hasMorePost) {
-            try {
-                const res = await this.$axios.get(`/posts?offset=${state.mainPosts.length}&limit=10`)
-                commit('loadPosts', res.data);
-                console.log(state);
+        try {
+            if (payload && payload.reset) {
+                const res = await this.$axios.get(`/posts?limit=10`);
+                commit('loadPosts', {
+                    data: res.data,
+                    reset: true,
+                });
                 return;
-            } catch (err) {
-                console.error(err);
             }
+            if (state.hasMorePost) {
+                const lastPost = state[state.mainPosts.length - 1];
+                const res = await this.$axios.get(`/posts?lastId=${lastPost && lastPost.id}&limit=10`);
+                commit('loadPosts', {
+                    data: res.data,
+                    reset: true,
+                });
+                return;
+            }
+        } catch (err) {
+            console.error(err);
         }
-    },
+    }, 3000), // 3초에 한번씩 함수 실행
+    loadUserPosts: throttle(async function({ commit, state }, payload) { //특정 유저의 게시물 불러오기
+        try {
+            if (payload && payload.reset) {
+                const res = await this.$axios.get(`/user/${payload.userId}/posts?limit=10`);
+                commit('loadPosts', {
+                    data: res.data,
+                    reset: true,
+                });
+                return;
+            }
+            if (state.hasMorePost) {
+                const lastPost = state[state.mainPosts.length - 1];
+                const res = await this.$axios.get(`/user/${payload.userId}/posts?lastId=${lastPost && lastPost.id}&limit=10`);
+                commit('loadPosts', {
+                    data: res.data,
+                    reset: true,
+                });
+                return;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }, 3000),
     uploadImages({ commit }, payload) {
         this.$axios.post('/post/images', payload, {
             withCredentials: true,

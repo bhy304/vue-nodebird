@@ -16,8 +16,13 @@
     <v-container v-else>
         <v-card>
             <v-container>
-                {{ me.nickname }} Login Success
+                {{ me.nickname }} Logged in!
                 <v-btn @click="onLogout">Logout</v-btn>
+                <v-row>
+                    <v-col cols="4">{{ me.Followings.length }} Following</v-col>
+                    <v-col cols="4">{{ me.Followers.length }} Followers</v-col>
+                    <v-col cols="4">{{ me.Posts.length }} Posts</v-col>
+                </v-row>
             </v-container>
         </v-card>
     </v-container>

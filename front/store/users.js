@@ -4,16 +4,18 @@ export const state = () => ({
     followingList: [],
     hasMoreFollower: true,
     hasMoreFollowing: true,
+    other: null, // 다른 유저의 정보
 });
 
-const totalFollowers = 8;
-const totalFollowings = 6;
 const limit = 3;
 
 // 동기적작업
 export const mutations = {
     setMe(state, payload) {
         state.me = payload;
+    },
+    setOther(state, payload) {
+        state.other = payload;
     },
     changeNickname(state, payload) {
         state.me.nickname = payload.nickname;
@@ -62,19 +64,27 @@ export const actions = {
     async loadUser({ state, commit }) {
         console.log('loadUser');
         try {
-            const res = await this.$axios.get('http://localhost:3085/user', {
+            const res = await this.$axios.get('/user', {
                 withCredentials: true,
             });
-            console.log(res.data);
             commit('setMe', res.data);
-            console.log(state);
+        } catch (err) {
+            console.error(err);
+        }
+    },
+    async loadOther({ commit }, payload) {
+        try {
+            const res = await this.$axios.get(`/user/${payload.userId}`, {
+                withCredentials: true,
+            });
+            commit('setOther', res.data);
         } catch (err) {
             console.error(err);
         }
     },
     signUp({ commit }, payload) {
         // 서버에 회원가입 요청을 보내는 부분
-        this.$axios.post('http://localhost:3085/user', {
+        this.$axios.post('/user', {
             email: payload.email,
             nickname: payload.nickname,
             password: payload.password,
@@ -87,7 +97,7 @@ export const actions = {
         }); 
     },
     logIn({ commit }, payload) {
-        this.$axios.post('http://localhost:3085/user/login', {
+        this.$axios.post('/user/login', {
             email: payload.email,
             password: payload.password,
         }, {
@@ -99,7 +109,7 @@ export const actions = {
         }); 
     },
     logOut({ commit }) {
-        this.$axios.post('http://localhost:3085/user/logout', {}, {
+        this.$axios.post('/user/logout', {}, {
             withCredentials: true,
         })
         .then((data) => {
@@ -193,5 +203,5 @@ export const actions = {
         }).catch((err) => {
             console.error(err);
         });
-    }
+    },
 };
