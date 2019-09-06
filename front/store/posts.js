@@ -121,7 +121,7 @@ export const actions = {
         } catch (err) {
             console.error(err);
         }
-    }, 3000), // 3초에 한번씩 함수 실행
+    }, 2000), // 3초에 한번씩 함수 실행
     loadUserPosts: throttle(async function({ commit, state }, payload) { //특정 유저의 게시물 불러오기
         try {
             if (payload && payload.reset) {
@@ -144,7 +144,30 @@ export const actions = {
         } catch (err) {
             console.error(err);
         }
-    }, 3000),
+    }, 2000),
+    loadHashtagPosts: throttle(async function({ commit, state }, payload) { //특정 유저의 게시물 불러오기
+        try {
+            if (payload && payload.reset) {
+                const res = await this.$axios.get(`/hashtag/${payload.hashtag}?limit=10`);
+                commit('loadPosts', {
+                    data: res.data,
+                    reset: true,
+                });
+                return;
+            }
+            if (state.hasMorePost) {
+                const lastPost = state[state.mainPosts.length - 1];
+                const res = await this.$axios.get(`/hashtag/${payload.hashtag}?lastId=${lastPost && lastPost.id}&limit=10`);
+                commit('loadPosts', {
+                    data: res.data,
+                    reset: true,
+                });
+                return;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    }, 2000),
     uploadImages({ commit }, payload) {
         this.$axios.post('/post/images', payload, {
             withCredentials: true,

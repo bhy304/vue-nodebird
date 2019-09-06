@@ -8,12 +8,14 @@
                 <v-btn v-if="canUnfollow" @click="onUnfollow">Unfollow</v-btn>
             </h3>
         </v-card-title>
-        <v-container>
-            <v-img src="" />
-            <v-card-text>
-                <div>{{ post.content }}</div>
-            </v-card-text>
-        </v-container>
+        <v-card-text>
+            <div>
+            <template v-for="(node, i) in nodes">
+                <nuxt-link v-if="node.startsWith('#')" :key="i" :to="`/hashtag/${node.slice(1)}`" style="color: navy">{{ node }}</nuxt-link>
+                <template v-else>{{ node }}</template>
+            </template>
+            </div>
+        </v-card-text>
     </div>
 </template>
 
@@ -31,6 +33,9 @@ export default {
         },
     },
     computed: {
+        nodes() {
+            return this.post.content.split(/(#[^\s#]+)/);
+        },
         me() {
             return this.$store.state.users.me;
         },

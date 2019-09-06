@@ -66,8 +66,10 @@ export default {
         }
     },
     fetch({ store }) {
-        store.dispatch('users/loadFollowers', { offset: 0 }); // { offset: 0 } : 초기로딩상태로 되돌아간다.
-        return store.dispatch('users/loadFollowings', { offset: 0 });
+        return Promise.all([
+             store.dispatch('users/loadFollowings', { offset: 0 }),
+             store.dispatch('users/loadFollowers', { offset: 0 }), // { offset: 0 } : 초기로딩상태로 되돌아간다.
+        ]);
     },
     methods: {
         onChangeNickname() {

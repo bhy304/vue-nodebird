@@ -2,11 +2,11 @@
     <v-container>
         <v-card style="margin-bottom: 20px">
             <v-container>
-                {{other.nickname}}
+                {{ other.nickname }}
                 <v-row>
-                    <v-col cols="4">{{other.Followings.length}} Following</v-col>
-                    <v-col cols="4">{{other.Followers.length}} Followers</v-col>
-                    <v-col cols="4">{{other.Posts.length}} Posts</v-col>
+                    <v-col cols="4">{{ other.Followings.length }} Following</v-col>
+                    <v-col cols="4">{{ other.Followers.length }} Followers</v-col>
+                    <v-col cols="4">{{ other.Posts.length }} Posts</v-col>
                 </v-row>
             </v-container>
         </v-card>
@@ -37,13 +37,15 @@ export default {
         },
     },
     fetch({ store, params }) {
-        store.dispatch('users/loadOther', {
-            userId: params.id,
-        });
-        return store.dispatch('posts/loadUserPosts', {
-            userId: params.id,
-            reset: true,
-        });
+        return Promise.all([
+            store.dispatch('posts/loadUserPosts', {
+                userId: params.id,
+                reset: true,
+            }), 
+            store.dispatch('users/loadOther', {
+                userId: params.id,
+            }),
+        ]);
     },
     mounted() {
         window.addEventListener('scroll', this.onScroll);
