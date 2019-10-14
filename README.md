@@ -1,4 +1,4 @@
-# vue-nodebird
+# Project Structure
 ```
 vue-nodebird
 ├─back
@@ -26,3 +26,7 @@ vue-nodebird
     │      └─_id   
     └─store
 ```
+
+# Setup
+- [Front](front/front.md)
+- [Back](back/back.md)
